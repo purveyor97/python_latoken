@@ -59,8 +59,10 @@ Install python_latoken library:
 
 .. code block:: bash
 
-	pip install git+https://github.com/purveyor97/python_latoken.git#egg=python_latoken
+    pip install git+https://github.com/purveyor97/python_latoken.git#egg=python_latoken
 
 Examples of code usage:
+-----------------------
+
 - `REST API <https://github.com/purveyor97/python_latoken/blob/main/examples/rest_example.py>`_
 - `Websockets <https://github.com/purveyor97/python_latoken/blob/main/examples/websocket_example.py>`_ (async code)
