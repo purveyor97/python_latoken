@@ -57,9 +57,10 @@ There are 4 levels of API key permissions at LATOKEN:
 
 Install python_latoken library:
 
-.. code block:: bash
+.. code block:: console
 
     pip install git+https://github.com/purveyor97/python_latoken.git#egg=python_latoken
+
 
 Examples of code usage:
 -----------------------
