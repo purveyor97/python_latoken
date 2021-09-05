@@ -31,8 +31,8 @@ async def consumer(message):
 
 	# Creating a function that would construct and undate an ordered orderbook
 	def updateOrderbook(order_book: dict, event: dict) -> dict:
-	"""Updates orderbook with new data
-	"""
+		"""Updates orderbook with new data
+		"""
 
 		for side in ("ask", "bid"):
 			for entry in event[side]:
@@ -46,30 +46,28 @@ async def consumer(message):
 	# Insert received data into our orderbook object.
 	# Each topic that we subscribe to is assigned a number in the order of subscription starting from 0.
 	# 'body' part of the message returns string, so we need to load it as json
-	if message['headers']['subscription'] == 0:  # We subscribed to LA/USDT orderbook first, so subscription is 0.
-		order_book = updateOrderbook(order_book, json.loads(message['body'])['payload'])
+	if len(message['headers']) != 0:
+		if message['headers']['subscription'] == '0':  # We subscribed to LA/USDT orderbook first, so subscription is 0.
+			order_book = updateOrderbook(order_book, json.loads(message['body'])['payload'])
+			print(f'LA/USDT orderbook is: {order_book}')
 
-	# Let's imagine we want to know 24 hours change and last price of LA/USDT and LA/ETH pairs.
-	if message['headers']['subscription'] == 1:
-		la_usdt_24h_change = json.loads(message['body'])['payload']['change24h']
-		la_usdt_last_price = json.loads(message['body'])['payload']['lastPrice']
+		# Let's imagine we want to know 24 hours change and last price of LA/USDT and LA/ETH pairs.
+		if message['headers']['subscription'] == '1':
+			la_usdt_24h_change = json.loads(message['body'])['payload']['change24h']
+			la_usdt_last_price = json.loads(message['body'])['payload']['lastPrice']
+			print(f'LA/USDT last price was: {la_usdt_last_price}')
+			print(f'LA/USDT 24 hours change was: {la_usdt_24h_change}%')
 
-	if message['headers']['subscription'] == 2:
-		la_eth_24h_change = json.loads(message['body'])['payload']['change24h']
-		la_eth_last_price = json.loads(message['body'])['payload']['lastPrice']
-
-
-	print(f'LA/USDT last price was: {la_usdt_last_price}')
-	print(f'LA/USDT 24 hours change was: {la_usdt_24h_change}%')
-	print(f'LA/USDT orderbook is: {order_book}')
-	print(f'LA/ETH last price was: {la_eth_last_price}')
-	print(f'LA/ETH 24 hours change was: {la_eth_24h_change}%')
-
+		if message['headers']['subscription'] == '2':
+			la_eth_24h_change = json.loads(message['body'])['payload']['change24h']
+			la_eth_last_price = json.loads(message['body'])['payload']['lastPrice']
+			print(f'LA/ETH last price was: {la_eth_last_price}')
+			print(f'LA/ETH 24 hours change was: {la_eth_24h_change}%')
 
 
 # Finally, we launch the connection and run the code.
 # Don't forget to put the async function as on_message argument.
 latoken.run(latoken.connect(on_message = consumer))
-
-
+# OR (if you want to use private endpoints, you will need to set signed = True)
+# latoken.run(latoken.connect(signed = True, on_message = consumer))
 

@@ -1235,7 +1235,7 @@ class LatokenClient:
                 }
 
 
-    async def connect(self, streams: list = topics, signed: bool = True, on_message = None):
+    async def connect(self, streams: list = topics, signed: bool = False, on_message = None):
 
         async with websockets.connect(self.baseWS) as websocket:
             msg = stomper.Frame()
