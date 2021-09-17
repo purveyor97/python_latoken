@@ -1240,10 +1240,7 @@ class LatokenClient:
         async with websockets.connect(self.baseWS) as websocket:
             msg = stomper.Frame()
             msg.cmd = "CONNECT"
-            msg.headers = {
-                    "accept-version": "1.1",
-                    "heart-beat": "10000,10000"
-                    }
+            msg.headers = {"accept-version": "1.1", "heart-beat": "0,0"}
             # If the request is for a public stream, then add signature headers to headers
             if signed:
                 msg.headers.update(self._WSsigned())
