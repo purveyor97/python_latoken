@@ -5,7 +5,7 @@ from time import time
 from typing import Optional
 
 import stomper
-import websockets
+import websocket
 import requests
 
 
@@ -1237,7 +1237,7 @@ class LatokenClient:
 
     async def connect(self, streams: list = topics, signed: bool = False, on_message = None):
 
-        async with websockets.connect(self.baseWS) as websocket:
+            ws=websocket.create_connection(self.baseWS)
             msg = stomper.Frame()
             msg.cmd = "CONNECT"
             msg.headers = {"accept-version": "1.1", "heart-beat": "0,0"}
@@ -1245,17 +1245,17 @@ class LatokenClient:
             if signed:
                 msg.headers.update(self._WSsigned())
 
-            await websocket.send(msg.pack())
-            await websocket.recv()
+            ws.send(msg.pack())
+            ws.recv()
 
             # Subscribing to streams, subscription id is assigned as an index in topics list
             for stream in streams:
                 msg = stomper.subscribe(stream, streams.index(stream), ack="auto")
-                await websocket.send(msg)
+                ws.send(msg)
 
             # Telling the application to execute a business logic (consumer()) on each message from the server
             while True:
-                message = await websocket.recv()
+                message = ws.recv()
                 message = stomper.unpack_frame(message.decode())
                 await on_message(message)
 
