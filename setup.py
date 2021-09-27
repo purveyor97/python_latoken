@@ -7,7 +7,7 @@ with open("README.rst", "r") as desc:
 setup(
     name = 'python_latoken',
     packages = find_packages(include = ['latoken']),
-    version = '0.2.0',
+    version = '0.2.1',
     description = 'LATOKEN REST API and STOMP Websocket python implementation',
     long_description = long_description,
     long_description_content_type = "text/x-rst",
