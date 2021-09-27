@@ -340,7 +340,7 @@ class LatokenClient:
 
 
     def placeOrder(self, pair: str, side: str, client_message: str, price: float, quantity: float,
-                   timestamp: int, condition: str = 'GTC', order_type: str = 'LIMIT') -> dict:
+                   timestamp: int, condition: str = 'GOOD_TILL_CANCELLED', order_type: str = 'LIMIT') -> dict:
         """Places an order
 
         :param pair: max 20 characters, can be any combination of currency id or currency tag (format ***/***)
@@ -351,8 +351,8 @@ class LatokenClient:
         :param quantity: max 50 characters
         :type quantity: string (method argument accepts float for user convenience)
         :param timestamp: required for correct signature
-        :param condition: max 30 characters, can be "GTC" (default), "GOOD_TILL_CANCELLED",
-        "IOC", "IMMEDIATE_OR_CANCEL", "FOK", "FILL_OR_KILL", "AON", "ALL_OR_NONE"
+        :param condition: max 30 characters, can be "GTC", "GOOD_TILL_CANCELLED" (default),
+        "IOC", "IMMEDIATE_OR_CANCEL", "FOK", "FILL_OR_KILL"
         :param order_type: max 30 characters, can be "LIMIT" (default), "MARKET"
 
         :returns: dict - dict with responce
@@ -1240,8 +1240,12 @@ class LatokenClient:
             ws=websocket.create_connection(self.baseWS)
             msg = stomper.Frame()
             msg.cmd = "CONNECT"
-            msg.headers = {"accept-version": "1.1", "heart-beat": "0,0"}
-            # If the request is for a public stream, then add signature headers to headers
+            msg.headers = {
+                            "accept-version": "1.1", 
+                            "heart-beat": "0,0"
+                            }
+            
+            # If the request is for a private stream, then add signature headers to headers
             if signed:
                 msg.headers.update(self._WSsigned())
 
@@ -1253,7 +1257,7 @@ class LatokenClient:
                 msg = stomper.subscribe(stream, streams.index(stream), ack="auto")
                 ws.send(msg)
 
-            # Telling the application to execute a business logic (consumer()) on each message from the server
+            # Telling the application to execute a business logic on each message from the server
             while True:
                 message = ws.recv()
                 message = stomper.unpack_frame(message.decode())

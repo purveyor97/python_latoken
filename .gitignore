@@ -1,2 +1,4 @@
 .DS_Store
-/venv
+venv/
+dist/
+python_latoken.egg-info/

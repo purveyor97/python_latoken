@@ -39,14 +39,17 @@ This library doesn't cover
 --------------------------
 
 - Futures Trading
+- Stocks Trading
+- IEO Purchases
 - Responce exceptions are exchange generated and are not handled by the library
+- Logging is not implemented
 
 Quick Start
 -----------
 
 Register an account on `LATOKEN <https://latoken.com/invite?r=rbjbrtq7>`_.
 
-Generate an API key `here <https://latoken.com/account/apikeys>`_ with relevant permissions.
+Generate an API key `in your account <https://latoken.com/account/apikeys>`_ with relevant permissions.
 
 There are 4 levels of API key permissions at LATOKEN:
 
@@ -59,7 +62,7 @@ Install python_latoken library:
 
 .. code-block:: bash
 
-  pip install git+https://github.com/purveyor97/python_latoken.git#egg=python_latoken
+  pip install python-latoken
   
 
 Examples of code usage:
