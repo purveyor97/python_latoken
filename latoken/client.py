@@ -89,7 +89,7 @@ class LatokenClient:
     accounts_stream = '/user/{user}/v1/account/total'  # Returns all accounts of a user including empty ones
     account_stream = '/user/{user}/v1/account'
     transactions_stream = '/user/{user}/v1/transaction'  # Returns external transactions (deposits and withdrawals)
-    transfers_stream = '/user/{user}/v1/transfers'  # Returns internal transfers on the platform (inter_user, ...)
+    transfers_stream = '/user/{user}/v1/transfer'  # Returns internal transfers on the platform (inter_user, ...)
 
     topics = list()
 
